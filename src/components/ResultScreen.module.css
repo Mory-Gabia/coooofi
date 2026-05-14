@@ -1,0 +1,52 @@
+/* src/components/ResultScreen.module.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 24px;
+  gap: 16px;
+}
+
+.coffeeEmoji {
+  font-size: 72px;
+  animation: pop 0.4s ease;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.announcement {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -1px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.name {
+  color: var(--color-accent);
+  font-size: 36px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.sub {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.retryBtn {
+  margin-top: 16px;
+  background: var(--color-icon-box);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 32px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-family);
+}
