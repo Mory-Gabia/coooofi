@@ -1,1 +1,117 @@
-export function Roulette() { return <div>룰렛 (준비 중)</div> }
+import { useState, useRef, useEffect } from 'react'
+import { GameHeader } from '../components/GameHeader'
+import { ParticipantInput } from '../components/ParticipantInput'
+import { StartButton } from '../components/StartButton'
+import { ResultScreen } from '../components/ResultScreen'
+import { useParticipants } from '../hooks/useParticipants'
+import { WHEEL_COLORS, slicePath, getWinnerIndex } from './rouletteUtils'
+import styles from './Roulette.module.css'
+
+type Phase = 'setup' | 'spinning' | 'result'
+
+const CX = 150, CY = 150, R = 130
+
+export function Roulette() {
+  const { participants, input, setInput, addParticipant, removeParticipant, reset } = useParticipants()
+  const [phase, setPhase] = useState<Phase>('setup')
+  const [rotation, setRotation] = useState(0)
+  const [loser, setLoser] = useState('')
+  const accumulatedRotation = useRef(0)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
+
+  function spin() {
+    setPhase('spinning')
+    const extra = 1800 + Math.random() * 1800
+    accumulatedRotation.current += extra
+    const finalRotation = accumulatedRotation.current
+    setRotation(finalRotation)
+
+    timeoutRef.current = setTimeout(() => {
+      const winnerIdx = getWinnerIndex(finalRotation % 360, participants.length)
+      setLoser(participants[winnerIdx])
+      setPhase('result')
+    }, 4000)
+  }
+
+  function handleRetry() {
+    reset()
+    setPhase('setup')
+    setRotation(0)
+    accumulatedRotation.current = 0
+  }
+
+  const sliceAngle = 360 / (participants.length || 1)
+
+  return (
+    <div className={styles.page}>
+      <GameHeader title="룰렛" emoji="🎡" />
+
+      {phase === 'setup' && (
+        <div className={styles.content}>
+          <ParticipantInput
+            participants={participants}
+            input={input}
+            onInputChange={setInput}
+            onAdd={addParticipant}
+            onRemove={removeParticipant}
+          />
+          <StartButton onClick={spin} disabled={participants.length < 2} label="돌리기!" />
+        </div>
+      )}
+
+      {phase !== 'setup' && participants.length > 0 && (
+        <div className={styles.wheelWrap}>
+          <div className={styles.pointer}>▼</div>
+          <svg
+            width={300}
+            height={300}
+            style={{
+              transform: `rotate(${rotation}deg)`,
+              transition: phase === 'spinning' ? 'transform 4s cubic-bezier(0.17,0.67,0.12,1)' : 'none',
+            }}
+          >
+            {participants.map((name, i) => {
+              const startDeg = i * sliceAngle
+              const endDeg = startDeg + sliceAngle
+              const midDeg = startDeg + sliceAngle / 2
+              const midRad = ((midDeg - 90) * Math.PI) / 180
+              const tx = CX + R * 0.65 * Math.cos(midRad)
+              const ty = CY + R * 0.65 * Math.sin(midRad)
+              return (
+                <g key={name}>
+                  <path
+                    d={slicePath(CX, CY, R, startDeg, endDeg)}
+                    fill={WHEEL_COLORS[i % WHEEL_COLORS.length]}
+                    stroke="white"
+                    strokeWidth={2}
+                  />
+                  <text
+                    x={tx} y={ty}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fontSize={11}
+                    fontWeight="700"
+                    fill="white"
+                    transform={`rotate(${midDeg}, ${tx}, ${ty})`}
+                  >
+                    {name}
+                  </text>
+                </g>
+              )
+            })}
+          </svg>
+        </div>
+      )}
+
+      {phase === 'result' && (
+        <ResultScreen loser={loser} onRetry={handleRetry} />
+      )}
+    </div>
+  )
+}
