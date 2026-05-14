@@ -20,7 +20,7 @@ export function Home() {
       </header>
       <main className={styles.main}>
         {GAMES.map(game => (
-          <button key={game.path} className={styles.gameCard} onClick={() => navigate(game.path)}>
+          <button key={game.path} className={styles.gameCard} onClick={() => navigate(game.path)} aria-label={`${game.title} 게임으로 이동`}>
             <div className={styles.iconBox}>{game.emoji}</div>
             <div className={styles.cardInfo}>
               <span className={styles.cardTitle}>{game.title}</span>
