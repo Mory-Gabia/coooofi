@@ -1,0 +1,96 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  background: var(--color-header);
+  padding: 28px 20px 32px;
+  text-align: left;
+}
+
+.coffeeIcon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--color-header-text);
+  letter-spacing: -1.5px;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: var(--color-accent);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.main {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gameCard {
+  width: 100%;
+  background: var(--color-card);
+  border: none;
+  border-radius: var(--border-radius-card);
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 1px 3px var(--color-shadow);
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.1s;
+  font-family: var(--font-family);
+}
+
+.gameCard:active {
+  transform: scale(0.98);
+}
+
+.iconBox {
+  background: var(--color-icon-box);
+  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.cardInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardTitle {
+  font-weight: 800;
+  font-size: 15px;
+  color: #111;
+}
+
+.cardDesc {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.arrow {
+  color: var(--color-accent);
+  font-size: 22px;
+  font-weight: 700;
+}
