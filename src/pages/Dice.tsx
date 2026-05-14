@@ -78,7 +78,7 @@ export function Dice() {
             return (
               <div key={name} className={`${styles.diceCard} ${isLoser && !isRolling ? styles.loserCard : ''}`}>
                 <span className={`${styles.diceFace} ${isRolling ? styles.shaking : ''}`}>
-                  {isRolling ? '🎲' : DICE_FACES[result!.value]}
+                  {isRolling ? '🎲' : (result ? DICE_FACES[result.value] : '?')}
                 </span>
                 <span className={styles.diceName}>{name}</span>
                 {!isRolling && result && (
