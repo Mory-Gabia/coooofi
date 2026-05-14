@@ -1,0 +1,365 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1778737869967,
+  "projectRoot": "/Users/mory/Documents/work/bet-games",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "react",
+        "version": "19.2.6",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.6",
+        "category": "frontend"
+      },
+      {
+        "name": "vite",
+        "version": "8.0.12",
+        "category": "build"
+      },
+      {
+        "name": "vitest",
+        "version": "4.1.6",
+        "category": "testing"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": "npm test",
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "vite",
+      "build": "tsc -b && vite build",
+      "lint": "eslint .",
+      "preview": "vite preview",
+      "test": "vitest run",
+      "test:watch": "vitest"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs",
+      "public",
+      "src"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 3,
+      "lastAccessed": 1778737869953,
+      "keyFiles": [
+        "favicon.svg",
+        "icons.svg",
+        "index.html"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 0,
+      "lastAccessed": 1778737869953,
+      "keyFiles": []
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 2,
+      "lastAccessed": 1778737869955,
+      "keyFiles": [
+        "favicon.svg",
+        "icons.svg"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 3,
+      "lastAccessed": 1778737869956,
+      "keyFiles": [
+        "App.tsx",
+        "main.tsx",
+        "setupTests.ts"
+      ]
+    },
+    "dist/assets": {
+      "path": "dist/assets",
+      "purpose": "Static assets",
+      "fileCount": 2,
+      "lastAccessed": 1778737869956,
+      "keyFiles": [
+        "index-BhN3RIzQ.css",
+        "index-C-ltCp5K.js"
+      ]
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 9,
+      "lastAccessed": 1778737869956,
+      "keyFiles": [
+        "GameHeader.module.css",
+        "GameHeader.tsx",
+        "ParticipantInput.module.css"
+      ]
+    },
+    "src/utils": {
+      "path": "src/utils",
+      "purpose": "Utility functions",
+      "fileCount": 2,
+      "lastAccessed": 1778737869956,
+      "keyFiles": [
+        "random.test.ts",
+        "random.ts"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src/pages/Roulette.tsx",
+      "accessCount": 18,
+      "lastAccessed": 1778749483944,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Ladder.tsx",
+      "accessCount": 15,
+      "lastAccessed": 1778749555073,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/RandomPick.tsx",
+      "accessCount": 14,
+      "lastAccessed": 1778749551333,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Dice.tsx",
+      "accessCount": 12,
+      "lastAccessed": 1778749562859,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/NumberGame.tsx",
+      "accessCount": 11,
+      "lastAccessed": 1778749479123,
+      "type": "file"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-05-14-coffee-bet-games.md",
+      "accessCount": 10,
+      "lastAccessed": 1778739383874,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/global.css",
+      "accessCount": 7,
+      "lastAccessed": 1778739363370,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Roulette.module.css",
+      "accessCount": 7,
+      "lastAccessed": 1778749484276,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/NumberGame.module.css",
+      "accessCount": 7,
+      "lastAccessed": 1778749487185,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Home.tsx",
+      "accessCount": 6,
+      "lastAccessed": 1778738625985,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Home.module.css",
+      "accessCount": 6,
+      "lastAccessed": 1778738634199,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/RandomPick.module.css",
+      "accessCount": 6,
+      "lastAccessed": 1778749559969,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Ladder.module.css",
+      "accessCount": 6,
+      "lastAccessed": 1778749560388,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/Dice.module.css",
+      "accessCount": 6,
+      "lastAccessed": 1778749571197,
+      "type": "file"
+    },
+    {
+      "path": "src/App.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1778738587061,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/rouletteUtils.ts",
+      "accessCount": 5,
+      "lastAccessed": 1778739027456,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ResultScreen.tsx",
+      "accessCount": 5,
+      "lastAccessed": 1778749487906,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ParticipantInput.tsx",
+      "accessCount": 4,
+      "lastAccessed": 1778749287971,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ResultScreen.module.css",
+      "accessCount": 4,
+      "lastAccessed": 1778749475429,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/ladderUtils.ts",
+      "accessCount": 4,
+      "lastAccessed": 1778749526904,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/ladderUtils.test.ts",
+      "accessCount": 3,
+      "lastAccessed": 1778738780255,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/rouletteUtils.test.ts",
+      "accessCount": 3,
+      "lastAccessed": 1778738977247,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/numberGameUtils.ts",
+      "accessCount": 3,
+      "lastAccessed": 1778739325507,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/numberGameUtils.test.ts",
+      "accessCount": 3,
+      "lastAccessed": 1778739325937,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/diceUtils.ts",
+      "accessCount": 3,
+      "lastAccessed": 1778739500214,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/diceUtils.test.ts",
+      "accessCount": 3,
+      "lastAccessed": 1778739500582,
+      "type": "file"
+    },
+    {
+      "path": "src/components/GameHeader.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1778737946619,
+      "type": "file"
+    },
+    {
+      "path": "src/components/GameHeader.module.css",
+      "accessCount": 2,
+      "lastAccessed": 1778737946695,
+      "type": "file"
+    },
+    {
+      "path": "src/components/StartButton.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1778737946923,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ParticipantInput.module.css",
+      "accessCount": 2,
+      "lastAccessed": 1778737946979,
+      "type": "file"
+    },
+    {
+      "path": "src/components/StartButton.module.css",
+      "accessCount": 2,
+      "lastAccessed": 1778737947080,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ResultScreen.test.tsx",
+      "accessCount": 2,
+      "lastAccessed": 1778737947309,
+      "type": "file"
+    },
+    {
+      "path": "src/main.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1778738081981,
+      "type": "file"
+    },
+    {
+      "path": "Dockerfile",
+      "accessCount": 1,
+      "lastAccessed": 1778749039144,
+      "type": "file"
+    },
+    {
+      "path": "nginx.conf",
+      "accessCount": 1,
+      "lastAccessed": 1778749039692,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

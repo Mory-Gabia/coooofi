@@ -28,27 +28,45 @@
   gap: 6px;
   box-shadow: 0 1px 3px var(--color-shadow);
   border: 2px solid transparent;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .loserCard {
   border-color: var(--color-accent);
   background: var(--color-loser-bg);
+  box-shadow: 0 0 16px rgba(255, 59, 48, 0.5);
 }
 
-.diceFace {
+.diceSvg {
+  display: block;
+}
+
+.rollingEmoji {
+  font-size: 42px;
+  line-height: 1;
+  display: inline-block;
+  animation: spin 0.4s linear infinite;
+}
+
+.dicePlaceholder {
   font-size: 42px;
   line-height: 1;
 }
 
-.shaking {
-  animation: shake 0.25s infinite;
+.bounceIn {
+  animation: bounceIn 0.5s ease both;
 }
 
-@keyframes shake {
-  0%, 100% { transform: rotate(0deg); }
-  25%       { transform: rotate(-12deg); }
-  75%       { transform: rotate(12deg); }
+@keyframes bounceIn {
+  0%   { transform: scale(0.3) translateY(-20px); opacity: 0; }
+  60%  { transform: scale(1.15);                  opacity: 1; }
+  80%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 
 .diceName  { font-size: 13px; font-weight: 700; }

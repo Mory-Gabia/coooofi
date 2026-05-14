@@ -14,6 +14,35 @@ type Phase = 'setup' | 'playing' | 'result'
 const LADDER_HEIGHT = 320
 const COL_WIDTH = 64
 
+function buildPathPoints(ladder: LadderData, loserCol: number, rowGap: number): string {
+  const points: Array<{ x: number; y: number }> = []
+  let col = loserCol
+
+  points.push({ x: 20 + col * COL_WIDTH, y: 0 })
+
+  for (let row = 0; row < ladder.rows; row++) {
+    const y = (row + 1) * rowGap
+    const hasRight = ladder.rungs.some(r => r.row === row && r.col === col)
+    const hasLeft = ladder.rungs.some(r => r.row === row && r.col === col - 1)
+
+    if (hasRight) {
+      points.push({ x: 20 + col * COL_WIDTH, y })
+      col += 1
+      points.push({ x: 20 + col * COL_WIDTH, y })
+    } else if (hasLeft) {
+      points.push({ x: 20 + col * COL_WIDTH, y })
+      col -= 1
+      points.push({ x: 20 + col * COL_WIDTH, y })
+    } else {
+      points.push({ x: 20 + col * COL_WIDTH, y })
+    }
+  }
+
+  points.push({ x: 20 + col * COL_WIDTH, y: LADDER_HEIGHT })
+
+  return points.map(p => `${p.x},${p.y}`).join(' ')
+}
+
 export function Ladder() {
   const { participants, input, setInput, addParticipant, removeParticipant, reset } = useParticipants()
   const [phase, setPhase] = useState<Phase>('setup')
@@ -21,6 +50,8 @@ export function Ladder() {
   const [loser, setLoser] = useState('')
   const [animatingCol, setAnimatingCol] = useState(-1)
   const [coffeeCol, setCoffeeCol] = useState(-1)
+  const [loserCol, setLoserCol] = useState(-1)
+  const [showPath, setShowPath] = useState(false)
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -40,6 +71,8 @@ export function Ladder() {
     setLadder(newLadder)
     setCoffeeCol(coffeeResult)
     setLoser(participants[loserIdx])
+    setLoserCol(loserIdx)
+    setShowPath(false)
     setPhase('playing')
 
     let col = 0
@@ -49,7 +82,8 @@ export function Ladder() {
       if (col >= participants.length) {
         clearInterval(intervalRef.current!)
         intervalRef.current = null
-        timeoutRef.current = setTimeout(() => setPhase('result'), 800)
+        setShowPath(true)
+        timeoutRef.current = setTimeout(() => setPhase('result'), 2100)
       }
     }, 700)
   }
@@ -59,6 +93,8 @@ export function Ladder() {
     setPhase('setup')
     setLadder(null)
     setAnimatingCol(-1)
+    setLoserCol(-1)
+    setShowPath(false)
   }
 
   const svgWidth = ladder ? ladder.cols * COL_WIDTH + 40 : 300
@@ -101,8 +137,8 @@ export function Ladder() {
                 key={`v${i}`}
                 x1={20 + i * COL_WIDTH} y1={0}
                 x2={20 + i * COL_WIDTH} y2={LADDER_HEIGHT}
-                stroke={animatingCol === i ? 'var(--color-accent)' : '#333'}
-                strokeWidth={animatingCol === i ? 3 : 2}
+                stroke="#ddd"
+                strokeWidth={2}
               />
             ))}
             {ladder.rungs.map((rung, idx) => (
@@ -110,9 +146,20 @@ export function Ladder() {
                 key={`h${idx}`}
                 x1={20 + rung.col * COL_WIDTH} y1={(rung.row + 1) * rowGap}
                 x2={20 + (rung.col + 1) * COL_WIDTH} y2={(rung.row + 1) * rowGap}
-                stroke="#333" strokeWidth={2}
+                stroke="#aaa" strokeWidth={2}
               />
             ))}
+            {showPath && loserCol >= 0 && (
+              <polyline
+                points={buildPathPoints(ladder, loserCol, rowGap)}
+                fill="none"
+                stroke="var(--color-accent)"
+                strokeWidth={4}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={styles.pathLine}
+              />
+            )}
           </svg>
 
           <div className={styles.resultRow} style={{ width: svgWidth }}>

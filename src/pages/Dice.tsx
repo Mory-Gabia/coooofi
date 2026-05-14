@@ -10,8 +10,34 @@ import styles from './Dice.module.css'
 
 type Phase = 'setup' | 'rolling' | 'result'
 
-const DICE_FACES: Record<number, string> = {
-  1: '⚀', 2: '⚁', 3: '⚂', 4: '⚃', 5: '⚄', 6: '⚅',
+const DOT_POSITIONS: Record<number, [number, number][]> = {
+  1: [[30, 30]],
+  2: [[42, 18], [18, 42]],
+  3: [[42, 18], [30, 30], [18, 42]],
+  4: [[18, 18], [42, 18], [18, 42], [42, 42]],
+  5: [[18, 18], [42, 18], [30, 30], [18, 42], [42, 42]],
+  6: [[18, 15], [18, 30], [18, 45], [42, 15], [42, 30], [42, 45]],
+}
+
+function DiceFace({ value }: { value: number }) {
+  const dots = DOT_POSITIONS[value] ?? []
+  return (
+    <svg viewBox="0 0 60 60" width="60" height="60" className={styles.diceSvg}>
+      <rect x="2" y="2" width="56" height="56" rx="10" ry="10" fill="white" stroke="#e0e0e0" strokeWidth="1.5" />
+      {dots.map(([cx, cy], i) => (
+        <circle key={i} cx={cx} cy={cy} r="5" fill="var(--color-accent)" />
+      ))}
+    </svg>
+  )
+}
+
+function getRanks(results: DiceResult[]): Record<string, number> {
+  const sorted = [...results].sort((a, b) => b.value - a.value)
+  const ranks: Record<string, number> = {}
+  sorted.forEach((r, i) => {
+    ranks[r.name] = i + 1
+  })
+  return ranks
 }
 
 const ROLL_ANIMATION_MS = 1500
@@ -51,6 +77,8 @@ export function Dice() {
     setResults([])
   }
 
+  const ranks = phase === 'result' ? getRanks(results) : {}
+
   return (
     <div className={styles.page}>
       <GameHeader title="주사위" emoji="🎯" />
@@ -70,19 +98,30 @@ export function Dice() {
 
       {(phase === 'rolling' || phase === 'result') && (
         <div className={styles.diceGrid}>
-          {participants.map(name => {
+          {participants.map((name, i) => {
             const result = results.find(r => r.name === name)
             const isLoser = loser.includes(name)
             const isRolling = phase === 'rolling'
+            const rank = ranks[name]
 
             return (
-              <div key={name} className={`${styles.diceCard} ${isLoser && !isRolling ? styles.loserCard : ''}`}>
-                <span className={`${styles.diceFace} ${isRolling ? styles.shaking : ''}`}>
-                  {isRolling ? '🎲' : (result ? DICE_FACES[result.value] : '?')}
-                </span>
+              <div
+                key={name}
+                className={`${styles.diceCard} ${isLoser && !isRolling ? styles.loserCard : ''} ${!isRolling ? styles.bounceIn : ''}`}
+                style={!isRolling ? { animationDelay: `${i * 80}ms` } : undefined}
+              >
+                {isRolling ? (
+                  <span className={styles.rollingEmoji}>🎲</span>
+                ) : result ? (
+                  <DiceFace value={result.value} />
+                ) : (
+                  <span className={styles.dicePlaceholder}>?</span>
+                )}
                 <span className={styles.diceName}>{name}</span>
                 {!isRolling && result && (
-                  <span className={styles.diceValue}>{result.value}점</span>
+                  <span className={styles.diceValue}>
+                    {result.value}점 {rank != null ? `· ${rank}위` : ''}
+                  </span>
                 )}
               </div>
             )

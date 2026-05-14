@@ -10,44 +10,74 @@ import styles from './RandomPick.module.css'
 type Phase = 'setup' | 'picking' | 'result'
 
 const REVEAL_DELAY_MS = 600
-const RESULT_SCREEN_DELAY_MS = 2200
+const FLIP_INTERVAL_MS = 300
+const LOSER_EXTRA_DELAY_MS = 200
+const RESULT_SCREEN_DELAY_MS = 3500
+
+function shuffled<T>(arr: T[]): T[] {
+  const copy = [...arr]
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[copy[i], copy[j]] = [copy[j], copy[i]]
+  }
+  return copy
+}
 
 export function RandomPick() {
   const { participants, input, setInput, addParticipant, removeParticipant, reset } = useParticipants()
   const [phase, setPhase] = useState<Phase>('setup')
   const [loser, setLoser] = useState('')
-  const [revealedIdx, setRevealedIdx] = useState(-1)
-  const timeout1Ref = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const timeout2Ref = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [revealedIndices, setRevealedIndices] = useState<Set<number>>(new Set())
+  const [loserIdx, setLoserIdx] = useState(-1)
+  const timeoutRefs = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(() => {
     return () => {
-      if (timeout1Ref.current) clearTimeout(timeout1Ref.current)
-      if (timeout2Ref.current) clearTimeout(timeout2Ref.current)
+      timeoutRefs.current.forEach(clearTimeout)
     }
   }, [])
 
   function pick() {
-    if (timeout1Ref.current) clearTimeout(timeout1Ref.current)
-    if (timeout2Ref.current) clearTimeout(timeout2Ref.current)
+    timeoutRefs.current.forEach(clearTimeout)
+    timeoutRefs.current = []
 
     const picked = pickRandom(participants)
+    const pickedIdx = participants.indexOf(picked)
     setLoser(picked)
+    setLoserIdx(pickedIdx)
     setPhase('picking')
+    setRevealedIndices(new Set())
 
-    timeout1Ref.current = setTimeout(() => {
-      setRevealedIdx(participants.indexOf(picked))
-    }, REVEAL_DELAY_MS)
+    const nonLoserIndices = shuffled(
+      participants.map((_, i) => i).filter(i => i !== pickedIdx)
+    )
+    const flipOrder = [...nonLoserIndices, pickedIdx]
 
-    timeout2Ref.current = setTimeout(() => {
+    flipOrder.forEach((idx, position) => {
+      const isLoser = idx === pickedIdx
+      const delay =
+        REVEAL_DELAY_MS +
+        position * FLIP_INTERVAL_MS +
+        (isLoser ? LOSER_EXTRA_DELAY_MS : 0)
+
+      const t = setTimeout(() => {
+        setRevealedIndices(prev => new Set(prev).add(idx))
+      }, delay)
+      timeoutRefs.current.push(t)
+    })
+
+    const resultDelay = REVEAL_DELAY_MS + flipOrder.length * FLIP_INTERVAL_MS + LOSER_EXTRA_DELAY_MS + RESULT_SCREEN_DELAY_MS
+    const resultT = setTimeout(() => {
       setPhase('result')
-    }, RESULT_SCREEN_DELAY_MS)
+    }, resultDelay)
+    timeoutRefs.current.push(resultT)
   }
 
   function handleRetry() {
     reset()
     setPhase('setup')
-    setRevealedIdx(-1)
+    setRevealedIndices(new Set())
+    setLoserIdx(-1)
   }
 
   return (
@@ -69,14 +99,29 @@ export function RandomPick() {
 
       {(phase === 'picking' || phase === 'result') && (
         <div className={styles.cards}>
-          {participants.map((name, i) => (
-            <div key={name} className={`${styles.card} ${revealedIdx === i ? styles.flipped : ''}`}>
-              <div className={styles.cardInner}>
-                <div className={styles.cardFront}>?</div>
-                <div className={styles.cardBack}>{name}</div>
+          {participants.map((name, i) => {
+            const isRevealed = revealedIndices.has(i)
+            const isLoser = i === loserIdx
+            const cardBackClass = isRevealed
+              ? isLoser
+                ? `${styles.cardBack} ${styles.cardBackLoser}`
+                : `${styles.cardBack} ${styles.cardBackSafe}`
+              : styles.cardBack
+            return (
+              <div
+                key={name}
+                className={`${styles.card} ${isRevealed ? styles.flipped : ''}`}
+              >
+                <div className={styles.cardInner}>
+                  <div className={styles.cardFront}>?</div>
+                  <div className={cardBackClass}>
+                    <span className={styles.cardEmoji}>{isLoser ? '☕' : '✅'}</span>
+                    {name}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
 

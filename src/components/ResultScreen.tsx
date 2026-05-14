@@ -12,6 +12,11 @@ export function ResultScreen({ loser, onRetry }: Props) {
 
   return (
     <div className={styles.container}>
+      <div className={styles.confetti}>
+        {Array.from({ length: 25 }).map((_, i) => (
+          <div key={i} className={styles.particle} />
+        ))}
+      </div>
       <div className={styles.coffeeEmoji}>☕</div>
       <p className={styles.announcement}>
         <span className={styles.name}>{displayName}</span>

@@ -67,9 +67,17 @@ export function Roulette() {
       )}
 
       {phase !== 'setup' && participants.length > 0 && (
-        <div className={styles.wheelWrap}>
-          <div className={styles.pointer}>▼</div>
+        <div className={`${styles.wheelWrap} ${phase === 'result' ? styles.wheelWrapResult : ''}`}>
+          <div className={styles.pointer}>
+            <svg width="24" height="20" viewBox="0 0 24 20" xmlns="http://www.w3.org/2000/svg">
+              <filter id="pointerShadow" x="-50%" y="-50%" width="200%" height="200%">
+                <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="rgba(0,0,0,0.4)" />
+              </filter>
+              <polygon points="12,20 0,0 24,0" fill="#ff3b30" filter="url(#pointerShadow)" />
+            </svg>
+          </div>
           <svg
+            className={styles.wheel}
             width={300}
             height={300}
             style={{
@@ -106,7 +114,12 @@ export function Roulette() {
                 </g>
               )
             })}
+            <circle cx={CX} cy={CY} r={R} fill="none" stroke="white" strokeWidth={3} />
+            <circle cx={CX} cy={CY} r={18} fill="white" />
           </svg>
+          {phase === 'spinning' && (
+            <p className={styles.spinningLabel}>🎡 돌아가는 중...</p>
+          )}
         </div>
       )}
 

@@ -19,9 +19,34 @@
   gap: 0;
 }
 
+.wheelWrapResult {
+  animation: wheelResultGlow 0.5s ease-out forwards;
+}
+
+@keyframes wheelResultGlow {
+  0% { filter: brightness(1); }
+  40% { filter: brightness(1.35); }
+  100% { filter: brightness(1); }
+}
+
 .pointer {
-  font-size: 28px;
-  color: var(--color-accent);
   line-height: 1;
   z-index: 1;
+  margin-bottom: -4px;
+}
+
+.wheel {
+  filter: drop-shadow(0 4px 12px var(--color-shadow));
+}
+
+.spinningLabel {
+  margin-top: 14px;
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  animation: spinningPulse 1s ease-in-out infinite;
+}
+
+@keyframes spinningPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
 }

@@ -116,16 +116,38 @@ export function NumberGame() {
             <p className={styles.targetNum}>{target}</p>
           </div>
           <div className={styles.choiceList}>
-            {choices.map(c => (
-              <div
-                key={c.name}
-                className={`${styles.choiceRow} ${loser.includes(c.name) ? styles.loserRow : ''}`}
-              >
-                <span className={styles.choiceName}>{c.name}</span>
-                <span className={styles.choiceNum}>{c.number}</span>
-                <span className={styles.choiceDiff}>±{Math.abs(c.number - target)}</span>
-              </div>
-            ))}
+            {[...choices]
+              .sort((a, b) => Math.abs(a.number - target) - Math.abs(b.number - target))
+              .map((c, idx) => {
+                const dist = Math.abs(c.number - target)
+                const barWidth = Math.max(0, 100 - dist)
+                const rankBadge = idx === 0 ? '☕' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : String(idx + 1)
+                const rowClass = [
+                  styles.choiceRow,
+                  idx === 0 ? styles.loserRow : '',
+                  idx === 1 ? styles.secondRow : '',
+                  idx === 2 ? styles.thirdRow : '',
+                  styles.revealRow,
+                ].filter(Boolean).join(' ')
+                return (
+                  <div
+                    key={c.name}
+                    className={rowClass}
+                    style={{ animationDelay: `${idx * 100}ms` }}
+                  >
+                    <span className={styles.rankBadge}>{rankBadge}</span>
+                    <span className={styles.choiceName}>{c.name}</span>
+                    <span className={styles.choiceNum}>{c.number}</span>
+                    <span className={styles.choiceDiff}>±{dist}</span>
+                    <div className={styles.distBar}>
+                      <div
+                        className={styles.distBarFill}
+                        style={{ width: `${barWidth}%` }}
+                      />
+                    </div>
+                  </div>
+                )
+              })}
           </div>
         </div>
       )}
