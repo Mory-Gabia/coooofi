@@ -50,4 +50,11 @@ describe('useParticipants', () => {
     expect(result.current.participants).toEqual([])
     expect(result.current.input).toBe('')
   })
+
+  it('custom minCount를 설정할 수 있다', () => {
+    const { result } = renderHook(() => useParticipants(1))
+    act(() => { result.current.setInput('민수') })
+    act(() => { result.current.addParticipant() })
+    expect(result.current.isReady).toBe(true)
+  })
 })

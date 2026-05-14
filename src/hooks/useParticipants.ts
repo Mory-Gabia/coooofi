@@ -5,7 +5,7 @@ export function useParticipants(minCount = 2) {
   const [input, setInput] = useState('')
 
   function addParticipant() {
-    const trimmed = input.trim()
+    const trimmed = input.trim().normalize('NFC')
     if (!trimmed || participants.includes(trimmed)) return
     setParticipants(prev => [...prev, trimmed])
     setInput('')
