@@ -10,6 +10,7 @@ import styles from './Roulette.module.css'
 type Phase = 'setup' | 'spinning' | 'result'
 
 const CX = 150, CY = 150, R = 130
+const SPIN_DURATION_MS = 4000
 
 export function Roulette() {
   const { participants, input, setInput, addParticipant, removeParticipant, reset } = useParticipants()
@@ -36,7 +37,7 @@ export function Roulette() {
       const winnerIdx = getWinnerIndex(finalRotation % 360, participants.length)
       setLoser(participants[winnerIdx])
       setPhase('result')
-    }, 4000)
+    }, SPIN_DURATION_MS)
   }
 
   function handleRetry() {
@@ -73,7 +74,7 @@ export function Roulette() {
             height={300}
             style={{
               transform: `rotate(${rotation}deg)`,
-              transition: phase === 'spinning' ? 'transform 4s cubic-bezier(0.17,0.67,0.12,1)' : 'none',
+              transition: phase === 'spinning' ? `transform ${SPIN_DURATION_MS / 1000}s cubic-bezier(0.17,0.67,0.12,1)` : 'none',
             }}
           >
             {participants.map((name, i) => {
@@ -84,7 +85,7 @@ export function Roulette() {
               const tx = CX + R * 0.65 * Math.cos(midRad)
               const ty = CY + R * 0.65 * Math.sin(midRad)
               return (
-                <g key={name}>
+                <g key={`participant-${i}`}>
                   <path
                     d={slicePath(CX, CY, R, startDeg, endDeg)}
                     fill={WHEEL_COLORS[i % WHEEL_COLORS.length]}
