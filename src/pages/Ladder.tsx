@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { GameHeader } from '../components/GameHeader'
 import { ParticipantInput } from '../components/ParticipantInput'
 import { StartButton } from '../components/StartButton'
@@ -21,6 +21,15 @@ export function Ladder() {
   const [loser, setLoser] = useState('')
   const [animatingCol, setAnimatingCol] = useState(-1)
   const [coffeeCol, setCoffeeCol] = useState(-1)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
 
   function startGame() {
     const newLadder = generateLadder(participants.length)
@@ -34,12 +43,13 @@ export function Ladder() {
     setPhase('playing')
 
     let col = 0
-    const interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       setAnimatingCol(col)
       col++
       if (col >= participants.length) {
-        clearInterval(interval)
-        setTimeout(() => setPhase('result'), 800)
+        clearInterval(intervalRef.current!)
+        intervalRef.current = null
+        timeoutRef.current = setTimeout(() => setPhase('result'), 800)
       }
     }, 700)
   }
