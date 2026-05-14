@@ -11,7 +11,7 @@ interface Props {
 
 export function ParticipantInput({ participants, input, onInputChange, onAdd, onRemove }: Props) {
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter') onAdd()
+    if (e.key === 'Enter' && !e.nativeEvent.isComposing) onAdd()
   }
 
   return (
