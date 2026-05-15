@@ -73,7 +73,7 @@ export function Roulette() {
               <filter id="pointerShadow" x="-50%" y="-50%" width="200%" height="200%">
                 <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="rgba(0,0,0,0.4)" />
               </filter>
-              <polygon points="12,20 0,0 24,0" fill="#ff3b30" filter="url(#pointerShadow)" />
+              <polygon points="12,20 0,0 24,0" fill="var(--color-accent)" filter="url(#pointerShadow)" />
             </svg>
           </div>
           <svg

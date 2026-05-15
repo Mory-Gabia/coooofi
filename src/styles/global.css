@@ -1,44 +1,124 @@
 /* src/styles/global.css */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 :root {
-  --color-bg: #f5f5f5;
-  --color-header: #111111;
-  --color-header-text: #ffffff;
-  --color-accent: #ff3b30;
+  /* Surfaces */
+  --color-bg: oklch(98% 0.006 175);              /* very faint mint canvas */
+  --color-surface: #ffffff;
+  --color-surface-soft: oklch(97% 0.012 175);    /* alt section wash */
   --color-card: #ffffff;
-  --color-icon-box: #111111;
-  --color-text-primary: #111111;
-  --color-text-secondary: #999999;
-  --color-loser-bg: #fff5f5;
-  --color-shadow: rgba(0, 0, 0, 0.08);
-  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --border-radius-card: 12px;
-  --max-width: 480px;
+  --color-loser-bg: oklch(96% 0.04 25);          /* coral whisper for loser highlight */
+
+  /* Text */
+  --color-text-primary: oklch(20% 0.012 60);     /* warm coffee dark */
+  --color-text-secondary: oklch(48% 0.012 60);   /* warm muted */
+  --color-text-tertiary: oklch(65% 0.012 60);
+  --color-text-on-accent: #ffffff;
+
+  /* Accent system */
+  --color-mint: oklch(64% 0.13 175);             /* primary brand mint */
+  --color-mint-soft: oklch(94% 0.04 175);
+  --color-mint-deep: oklch(48% 0.13 175);
+  --color-coral: oklch(70% 0.17 25);             /* pop / loser */
+  --color-coral-soft: oklch(96% 0.04 25);
+  --color-gold: oklch(80% 0.14 85);              /* winner / accent */
+  --color-plum: oklch(54% 0.15 320);             /* ladder */
+  --color-blue: oklch(62% 0.16 240);             /* dice */
+
+  /* Default accent (overridden per game on .page) */
+  --color-accent: var(--color-mint);
+  --color-accent-soft: var(--color-mint-soft);
+  --color-accent-deep: var(--color-mint-deep);
+
+  /* Header (now light, not dark) */
+  --color-header: #ffffff;
+  --color-header-text: var(--color-text-primary);
+
+  /* Lines & shadows */
+  --color-border: oklch(92% 0.008 175);
+  --color-border-strong: oklch(84% 0.012 175);
+  --color-shadow-sm: 0 1px 2px oklch(0% 0 0 / 0.04), 0 1px 3px oklch(0% 0 0 / 0.06);
+  --color-shadow-md: 0 4px 12px oklch(0% 0 0 / 0.06), 0 1px 3px oklch(0% 0 0 / 0.04);
+  --color-shadow-lg: 0 12px 28px oklch(0% 0 0 / 0.08), 0 4px 10px oklch(0% 0 0 / 0.05);
+
+  /* Typography */
+  --font-family: 'Söhne', 'Avenir Next', -apple-system, BlinkMacSystemFont, 'SF Pro Text',
+    'Segoe UI', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 9999px;
+  --border-radius-card: var(--radius-lg);
+
+  /* Spacing & layout */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --max-width: 1180px;
+  --content-width: 720px;
+
+  /* Focus ring */
+  --focus-ring: 0 0 0 3px color-mix(in oklch, var(--color-accent) 35%, transparent);
 }
 
+html,
 body {
   font-family: var(--font-family);
   background: var(--color-bg);
+  color: var(--color-text-primary);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
 }
 
 #root {
-  max-width: var(--max-width);
-  margin: 0 auto;
+  width: 100%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--color-bg);
+}
+
+/* tabular numerics by default for any digit-heavy element */
+input[type='number'],
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Universal focus style — applies to anything keyboard-focusable */
+:where(button, a, input, select, textarea, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

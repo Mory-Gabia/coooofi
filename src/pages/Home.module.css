@@ -2,95 +2,265 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: var(--color-bg);
 }
 
+/* ---------- header ---------- */
 .header {
-  background: var(--color-header);
-  padding: 28px 20px 32px;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(28px, 6vw, 64px) clamp(20px, 5vw, 48px) clamp(24px, 5vw, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
   text-align: left;
 }
 
-.coffeeIcon {
-  font-size: 32px;
-  margin-bottom: 8px;
+.brandRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-mint-soft);
+  color: var(--color-mint-deep);
+  padding: 6px 12px 6px 8px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  width: fit-content;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 120ms ease, box-shadow 200ms ease;
+}
+
+.brandRow:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--color-shadow-sm);
+}
+
+.brandMark {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.brandWord {
+  letter-spacing: 0.02em;
 }
 
 .title {
-  font-size: 32px;
-  font-weight: 900;
-  color: var(--color-header-text);
-  letter-spacing: -1.5px;
-  line-height: 1.1;
+  font-size: clamp(34px, 6.5vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+  color: var(--color-text-primary);
+  margin-top: 4px;
+  text-wrap: balance;
 }
 
 .subtitle {
-  font-size: 12px;
-  color: var(--color-accent);
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin-top: 8px;
+  font-size: clamp(15px, 1.4vw, 17px);
+  color: var(--color-text-secondary);
+  max-width: 50ch;
+  line-height: 1.55;
 }
 
-.main {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.gameCard {
-  width: 100%;
-  background: var(--color-card);
-  border: none;
-  border-radius: var(--border-radius-card);
-  padding: 14px 16px;
+.statRow {
   display: flex;
   align-items: center;
-  gap: 14px;
-  box-shadow: 0 1px 3px var(--color-shadow);
-  cursor: pointer;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.stat strong {
+  color: var(--color-text-primary);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.statDot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-border-strong);
+}
+
+/* ---------- main ---------- */
+.main {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 clamp(20px, 5vw, 48px) clamp(40px, 8vw, 80px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding-top: var(--space-3);
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.sectionHint {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+}
+
+/* ---------- grid ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+}
+
+@media (min-width: 960px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---------- card ---------- */
+.gameCard {
+  --card-accent: var(--color-mint);
+  position: relative;
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-4) var(--space-4) calc(var(--space-4) + 4px);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-4);
   text-align: left;
-  transition: transform 0.1s;
   font-family: var(--font-family);
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  overflow: hidden;
+}
+
+.gameCard::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: var(--space-4);
+  bottom: var(--space-4);
+  width: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--card-accent);
+  opacity: 0.85;
+  transition: opacity 0.2s ease, top 0.2s ease, bottom 0.2s ease;
+}
+
+.gameCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--color-shadow-md);
+  border-color: color-mix(in oklch, var(--card-accent) 30%, var(--color-border));
+}
+
+.gameCard:hover::before {
+  top: var(--space-3);
+  bottom: var(--space-3);
 }
 
 .gameCard:active {
-  transform: scale(0.98);
+  transform: translateY(0);
+}
+
+.cardTop {
+  grid-column: 1 / 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .iconBox {
-  background: var(--color-icon-box);
-  border-radius: 10px;
-  width: 44px;
-  height: 44px;
+  background: color-mix(in oklch, var(--card-accent) 12%, var(--color-surface));
+  border: 1px solid color-mix(in oklch, var(--card-accent) 22%, transparent);
+  border-radius: var(--radius-md);
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 28px;
   flex-shrink: 0;
 }
 
+.timeChip {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--card-accent);
+  background: color-mix(in oklch, var(--card-accent) 10%, transparent);
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
 .cardInfo {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .cardTitle {
-  font-weight: 800;
-  font-size: 15px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
   color: var(--color-text-primary);
 }
 
 .cardDesc {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--color-text-secondary);
+  line-height: 1.45;
 }
 
 .arrow {
-  color: var(--color-accent);
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--card-accent);
+  transition: transform 0.2s ease;
+}
+
+.gameCard:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* ---------- footer ---------- */
+.footer {
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+  font-size: 13px;
+  color: var(--color-text-tertiary);
 }

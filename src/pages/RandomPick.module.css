@@ -1,28 +1,38 @@
 .page {
+  --color-accent: var(--color-gold);
+  --color-accent-soft: oklch(96% 0.04 85);
+  --color-accent-deep: oklch(58% 0.14 85);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: var(--color-bg);
 }
 
 .content {
-  padding: 16px;
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 32px);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .cards {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  padding: 24px 16px;
+  gap: var(--space-3);
+  padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 32px);
   justify-content: center;
 }
 
 .card {
-  width: 80px;
-  height: 110px;
-  perspective: 600px;
+  width: 92px;
+  height: 124px;
+  perspective: 700px;
 }
 
 .cardInner {
@@ -30,68 +40,90 @@
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.6s ease;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .card.flipped .cardInner {
   transform: rotateY(180deg);
 }
 
-.cardFront, .cardBack {
+.cardFront,
+.cardBack {
   position: absolute;
   inset: 0;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-weight: 900;
+  font-weight: 700;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  border: 1px solid transparent;
 }
 
 .cardFront {
-  background: var(--color-icon-box);
-  color: white;
-  font-size: 28px;
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.03) 0px,
-    rgba(255, 255, 255, 0.03) 2px,
-    transparent 2px,
-    transparent 8px
+  background: linear-gradient(
+    135deg,
+    var(--color-text-primary) 0%,
+    color-mix(in oklch, var(--color-text-primary) 85%, var(--color-accent)) 100%
   );
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 800;
+  background-image:
+    linear-gradient(
+      135deg,
+      var(--color-text-primary) 0%,
+      color-mix(in oklch, var(--color-text-primary) 85%, var(--color-accent)) 100%
+    ),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.04) 0px,
+      rgba(255, 255, 255, 0.04) 2px,
+      transparent 2px,
+      transparent 8px
+    );
+  background-blend-mode: overlay;
+  box-shadow: var(--color-shadow-md);
 }
 
 .cardBack {
-  background: var(--color-accent);
-  color: white;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
   font-size: 13px;
+  font-weight: 700;
   transform: rotateY(180deg);
   padding: 8px;
   text-align: center;
   word-break: break-all;
   gap: 4px;
+  border-color: var(--color-border);
+  box-shadow: var(--color-shadow-sm);
 }
 
 .cardBackSafe {
-  background: #f0fdf4;
-  color: #22c55e;
+  background: oklch(96% 0.04 145);
+  color: oklch(48% 0.14 145);
+  border-color: color-mix(in oklch, oklch(60% 0.14 145) 30%, transparent);
 }
 
 .cardBackLoser {
-  background: var(--color-accent);
-  color: white;
+  background: var(--color-coral-soft);
+  color: var(--color-coral);
+  border-color: color-mix(in oklch, var(--color-coral) 35%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-coral) 22%, transparent),
+              var(--color-shadow-md);
   animation: pulse 0.4s ease-in-out 3;
 }
 
 .cardEmoji {
-  font-size: 18px;
+  font-size: 22px;
   line-height: 1;
 }
 
 @keyframes pulse {
   0%   { transform: rotateY(180deg) scale(1); }
-  50%  { transform: rotateY(180deg) scale(1.05); }
+  50%  { transform: rotateY(180deg) scale(1.06); }
   100% { transform: rotateY(180deg) scale(1); }
 }

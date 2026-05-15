@@ -1,33 +1,87 @@
 /* src/components/GameHeader.module.css */
 .header {
-  background: var(--color-header);
-  color: var(--color-header-text);
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
   position: sticky;
   top: 0;
   z-index: 10;
+  width: 100%;
+  background: color-mix(in oklch, var(--color-surface) 92%, transparent);
+  backdrop-filter: saturate(160%) blur(12px);
+  -webkit-backdrop-filter: saturate(160%) blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-3) clamp(16px, 4vw, 32px);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 
 .backBtn {
-  background: none;
-  border: none;
-  color: var(--color-header-text);
-  font-size: 20px;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   line-height: 1;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  flex-shrink: 0;
 }
 
 .backBtn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--color-accent-soft);
+  border-color: color-mix(in oklch, var(--color-accent) 30%, var(--color-border));
+}
+
+.backBtn:active {
+  transform: scale(0.96);
+}
+
+.titleGroup {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.emoji {
+  font-size: 20px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: color-mix(in oklch, var(--color-accent) 14%, var(--color-surface));
+  border: 1px solid color-mix(in oklch, var(--color-accent) 22%, transparent);
 }
 
 .title {
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.brand {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.02em;
 }

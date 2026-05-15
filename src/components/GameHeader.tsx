@@ -11,10 +11,21 @@ export function GameHeader({ title, emoji }: Props) {
   const navigate = useNavigate()
   return (
     <header className={styles.header}>
-      <button className={styles.backBtn} onClick={() => navigate('/')} aria-label="홈으로">
-        ←
-      </button>
-      <span className={styles.title}>{emoji} {title}</span>
+      <div className={styles.inner}>
+        <button
+          className={styles.backBtn}
+          onClick={() => navigate('/lobby')}
+          aria-label="로비로"
+        >
+          ←
+        </button>
+        <div className={styles.titleGroup}>
+          <span className={styles.emoji} aria-hidden="true">{emoji}</span>
+          <span className={styles.title}>{title}</span>
+        </div>
+        <span className={styles.spacer} />
+        <span className={styles.brand}>☕ 커피 내기</span>
+      </div>
     </header>
   )
 }

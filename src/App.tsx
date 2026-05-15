@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Landing } from './pages/Landing'
 import { Home } from './pages/Home'
 import { Ladder } from './pages/Ladder'
 import { Roulette } from './pages/Roulette'
@@ -10,7 +11,8 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/lobby" element={<Home />} />
         <Route path="/ladder" element={<Ladder />} />
         <Route path="/roulette" element={<Roulette />} />
         <Route path="/random-pick" element={<RandomPick />} />

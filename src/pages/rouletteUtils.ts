@@ -1,6 +1,12 @@
 export const WHEEL_COLORS = [
-  '#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff',
-  '#ff6bd6', '#ff9a3c', '#a06ef5', '#4ecdc4',
+  'oklch(70% 0.17 25)',   // coral
+  'oklch(80% 0.14 85)',   // gold
+  'oklch(64% 0.13 175)',  // mint
+  'oklch(62% 0.16 240)',  // blue
+  'oklch(54% 0.15 320)',  // plum
+  'oklch(74% 0.15 50)',   // peach
+  'oklch(60% 0.14 145)',  // forest
+  'oklch(68% 0.12 280)',  // lavender
 ]
 
 export function getWinnerIndex(rotation: number, count: number): number {
